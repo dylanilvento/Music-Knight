@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 74d6c7590137e41bb8ce085bf05359ed
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - collided_with: {instanceID: 0}
+  - drumBeat_pref: {fileID: 400000, guid: 2a84d248be5a74da29e59144caba71b6, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
