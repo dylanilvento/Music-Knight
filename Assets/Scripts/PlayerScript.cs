@@ -8,37 +8,23 @@ public class PlayerScript : MonoBehaviour
     //var speed: int = 5;
     public int speed = 5;
     
-    //var collided_with: GameObject;
     GameObject collidedWith;
 
-    //var drumBeat_pref: Transform;
     public GameObject drumbeatPrefab;
 
-    //var musicSheet_texture: Texture;
     Texture musicSheetTexture;
 
-    //var fire1_texture: Texture;
     public Texture fire1Texture;
-    //var fire1_guiShow: boolean;
     bool fire1GUIShow;
-    //var firstDot: boolean;
     bool firstDot;
-    //var fire1_guiDistance: int = 0;
     int fire1GUIDistance = 0;
-    //var fire1_guiCount: int = 0;
     int fire1GUICount = 0;
-
-    //var textureFlip: double;
-    float textureFlip;
-    //var fire1Direction: boolean; 
-    bool fire1Direction; //true is left, false is right
 
 	Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
     {
-        textureFlip = transform.localScale.x;
 		rb = GetComponent<Rigidbody>();
     }
 
@@ -47,23 +33,23 @@ public class PlayerScript : MonoBehaviour
     {
 		if (Math.Abs(Input.GetAxis("Horizontal")) > 0)
 		{
-			print(true);
+			
 			//Vector 3 (x, y, z)
 			transform.Translate(new Vector3(Input.GetAxis("Horizontal") * -speed * Time.deltaTime, 0, 0));
+			
 			//Texture flip
 			if (Input.GetKey("left"))
 			{
-				//transform.localScale.x = textureFlip;
 
-				transform.localScale = new Vector3(textureFlip, transform.localScale.y, transform.localScale.z);
-				fire1Direction = true;
+				transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+				
 			}
 			//Texture flip
 			if (Input.GetKey("right"))
 			{
-				//transform.localScale.x = -textureFlip;
-				transform.localScale = new Vector3(-textureFlip, transform.localScale.y, transform.localScale.z);
-				fire1Direction = false;
+				
+				transform.localScale = new Vector3(transform.localScale.x * -1f, transform.localScale.y, transform.localScale.z);
+				
 			}
 		}
 		//jump
@@ -83,15 +69,21 @@ public class PlayerScript : MonoBehaviour
 
 		if (Input.GetButtonDown("Fire1"))
 		{
-			if (fire1Direction == true)
+
+			GameObject currDrumBeat;
+
+			//facing left
+			if (transform.localScale.x > 0f)
 			{
 				//Instantiate(prefab, location, rotation)
-				Instantiate(drumbeatPrefab, new Vector3(transform.position.x + 0.6f, transform.position.y + 0.1f, 6), Quaternion.identity);
+				currDrumBeat = Instantiate(drumbeatPrefab, new Vector3(transform.position.x + 0.6f, transform.position.y + 0.1f, 6), Quaternion.identity);
 				fire1GUIShow = true;
 			}
-			else if (fire1Direction == false)
+			//facing right
+			else if (transform.localScale.x < 0f)
 			{
-				Instantiate(drumbeatPrefab, new Vector3(transform.position.x - 0.6f, transform.position.y + 0.1f, 6), Quaternion.identity);
+				currDrumBeat = Instantiate(drumbeatPrefab, new Vector3(transform.position.x - 0.6f, transform.position.y + 0.1f, 6), Quaternion.identity);
+				currDrumBeat.GetComponent<DrumBeatScript>().speed *= -1;
 				fire1GUIShow = true;
 			}
 		}
